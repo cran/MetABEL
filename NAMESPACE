@@ -1,0 +1,8 @@
+#useDynLib(MetABEL)
+
+export(
+	forestplot,
+	metagwa.files,
+	metagwa.tables
+       )
+
