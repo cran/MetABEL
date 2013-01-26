@@ -1,3 +1,24 @@
+##' Pairwise meta-analysis of results from GWA scans
+##'
+##' Performes meta-analysis of results of two individual GWA studies
+##'
+##' Original data frames should contain a number of variables,
+##' such as allelic coding, code for the effective allele,
+##' etc. Please refer to the \code{formetascore} function of the
+##' \code{GenABEL} package for details.
+##' @param data.x First data frame with GWA data
+##' @param data.y Second data frame with GWA data
+##' @param name.x First study name
+##' @param name.y Second study name
+##' @param precorrect Should GC be applied to the original data before pooling
+##' @param correct.pooled Whether to apply Genomic Control correction to
+##' the study named "POOLED"
+##' @return   A data frame containing summary statistics and essential details
+##'  of the individual studies
+##' @author Yurii Aulchenko
+##' @seealso \code{\link{metagwa.files}}
+##' @keywords htest
+##' @export
 "metagwa.tables" <-
     function(data.x, data.y, name.x="P1", name.y="P2",
              precorrect=TRUE, correct.pooled=FALSE) {

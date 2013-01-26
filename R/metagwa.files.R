@@ -1,3 +1,43 @@
+##' Meta-analysis of a series of results from GWA scans
+##'
+##' Performes meta-analysis of results of multiple GWA studies
+##' stored in files.
+##'
+##' The function looks for files named "POPSextens" in the directory
+##' "dir", reads them and pool consecutively using
+##' \code{\link{metagwa.tables}} function.
+##'
+##' The source files should contain a number of variables, such as allelic
+##' coding, code for the effective allele, etc. Please refer to the
+##' formetascore function of GenABEL package for details.
+##'
+##' When the file is not available for the first population, or there are
+##' non-unique population names, the function stops with an error message.
+##'
+##' If there are no files corresponding to next populations, these are
+##' skipped in analysis with a warning message (see details in the
+##' description of returned values).
+##'
+##' @param dir Path to directory containing files with GWA results
+##' @param pops A vector specifying study names, which make the first
+##' part of the file names
+##' @param extens Fixed extension to the file name
+##' @param maf Filter threshold for the absolute number/frequency of
+##' minor allele.  If the parameter is < 1, this MAF threshold is used
+##' for filtering before meta-analysis; if this parameter is >1, n*MAF
+##' -- absolute number of the minor allele copies -- is used
+##' @param call Filter threshold for SNP call rate
+##' @param phwe Filter threshold for SNP P-value for HWE
+##' @param precorrect Should GC be applied to the original data before pooling
+##' @param correct.pooled Whether to apply Genomic Control correction to
+##'    the study named "POOLED"
+##' @return   Results are dumped to file named "POOLEDextens" in the directory
+##'  "dir".  Additionally, a list is returned with elements
+##'  \item{analysed.pops}{list of populations successfully analysed}
+##' @author Yurii Aulchenko
+##' @seealso \code{\link{metagwa.tables}}
+##' @keywords htest
+##' @export
 "metagwa.files" <-
     function(dir=".", pops, extens, maf=5, call=0.95, phwe=1.e-8,
              precorrect=TRUE, correct.pooled=FALSE) {

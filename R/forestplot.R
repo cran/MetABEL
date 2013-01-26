@@ -1,7 +1,29 @@
+##' Function to draw meta-analysis forest plots
+##'
+##' This function creates forest plots from meta-analysis data.
+##'
+##' @param estimate Vector of effect estimates
+##' @param se Vector of standard errors
+##' @param labels Vector of labels for the individual studies
+##'           (default: Study 1, Study 2, etc.)
+##' @param CI Confidence interval (default: 0.95)
+##' @param xexp Whether the effect values are to be depicted on an
+##'           exponential scale (default: \code{FALSE})
+##' @param xlab Label for the horizontal axis (default: \eqn{\beta})
+##' @param ylab Label for the horizontal axis (default: empty)
+##' @param ... Arguments passed to the \code{plot} function,
+##'           e.g. \code{main="My plot"}
+##' @author Yurii Aulchenko, Lennart C. Karssen
+##' @keywords hplot
+##' @export
+##' @examples
+##' beta <- c(0.16, 0.091, 0.072, -0.03)
+##' se   <- c(0.07, 0.042, 0.048, 0.12)
+##' forestplot(beta, se, main="Example plot")
 "forestplot" <-
     function(estimate, se,
              labels=paste("Study", c(1:length(estimate))),
-             CI=0.95, xexp=FALSE, ...) {
+             CI=0.95, xexp=FALSE, xlab=expression(beta), ylab="", ...) {
         hoff      <- 3
         del       <- 10
         mea       <- !is.na(estimate)
@@ -50,18 +72,23 @@
         if (any(is.na(se))) stop("se contains NAs")
 
         plot(x=c(cntr, cntr), y=c(0, hgt), xlim=c(minv, maxv),
-             ylim=c(0, hgt), type="l", lwd=2, xlab="Beta", ...)
+             ylim=c(0, hgt), type="l", lwd=2, lty=2,
+             xlab=xlab, ylab=ylab, yaxt='n', ...)
 
+        ## Draw the bars for the individual studies
         for (i in c(1:(length(estimate)-1))) {
             points(x=c(lower[i], upper[i]), y=c((i) * del, (i) * del),
                    type="l", lwd=2)
             points(x=c(estimate[i]), y=c((i) * del), pch=19, cex=1)
-            text(estimate[i], i * del + 1,
-                 paste(labels[i], " (Chi2=", chi2[i], ", P=", p[i],
-                       ")", sep=""),
-                 pos=3, cex=.7)
+
+            labeltext <- bquote(
+                .(labels[i]) ~ "(" * chi^2 ~ "=" ~ .(chi2[i]) * ","
+                ~ italic(P) ~ "=" ~ .(p[i]) * ")"
+                )
+            text(estimate[i], i * del + 1, labeltext, pos=3, cex=.7)
         }
 
+        ## Draw diamond of the estimate
         for (i in c(length(estimate))) {
             points(x=c(lower[i], estimate[i]),
                    y=c((i) * del, (i) * del + hoff),
@@ -75,9 +102,11 @@
             points(x=c(lower[i], estimate[i]),
                    y=c((i) * del, (i) * del - hoff),
                    type="l", lwd=2)
-            text(estimate[i], i * del + 5,
-                 paste(labels[i], " (Chi2=", chi2[i], ", P=", p[i],
-                       ")", sep=""),
-                 pos=3, cex=1)
+
+            labeltext <-bquote(
+                .(labels[i]) ~ "(" * chi^2 ~ "=" ~ .(chi2[i]) * ","
+                ~ italic(P) ~ "=" ~ .(p[i]) * ")"
+                )
+            text(estimate[i], i * del + 5, labeltext, pos=3, cex=1)
         }
     }

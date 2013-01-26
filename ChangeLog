@@ -1,0 +1,12 @@
+*** 0.2-0 2014-02-03
+    - Improved the forest plot function
+      + Removed ticks on the vertical axis. They had no meaning and confused people.
+      + Removed the vertical axis label by default. The user can set it to their need
+      + Converted the horizontal axis label to show a proper \beta instead of "Beta"
+      + Changed the "Chi2" text to Greek/math font: \chi^2.
+      + The vertical line at x=0 is now dashed
+    - Converted the documentation to roxygen2 format.
+*** 0.1-0 2014-01-27
+    - Fixed some code layout
+    - Fixed CRAN warnings/notes
+    - Changed maintainer to Lennart Karssen

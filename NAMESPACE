@@ -1,8 +1,3 @@
-#useDynLib(MetABEL)
-
-export(
-	forestplot,
-	metagwa.files,
-	metagwa.tables
-       )
-
+export(forestplot)
+export(metagwa.files)
+export(metagwa.tables)
